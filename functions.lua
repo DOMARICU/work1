@@ -122,10 +122,11 @@ local framework = {
     local inputSpeed = tonumber(ox)
     if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
         FlySpeed = inputSpeed
+        print("Fluggeschwindigkeit eingestellt auf:", FlySpeed)
     else
-        print("ERROR! A higher Value Detected!", FlySpeed)
+        print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
     end
-  end,
+end,
 
   createESPBox = function(player)
     if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
