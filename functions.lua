@@ -117,9 +117,9 @@ local framework = {
   end,
 
   adjustFlySpeed = function(ox)
-    local inputSpeed = tonumber(ox)  -- Versuche, die übergebene Variable in eine Zahl zu konvertieren
+    local inputSpeed = tonumber(ox)
     if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
-        framework.FlySpeed = inputSpeed  -- Verwende das Framework, um die globale FlySpeed zu setzen
+        FlySpeed = inputSpeed
         print("Fluggeschwindigkeit auf:", FlySpeed)
     else
         print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
