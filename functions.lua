@@ -126,7 +126,7 @@ local framework = {
     else
         print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
     end
-end,
+  end,
 
   createESPBox = function(player)
     if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
