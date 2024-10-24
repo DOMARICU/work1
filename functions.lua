@@ -5,13 +5,12 @@ local SVSetting = {
 
 --Definitionen:
 local Flying = false
-local FlySpeed = 50
 local FlyBodyGyro, FlyBodyVelocity
 local ESPLinesEnabled = false
 local TeamCheckEnabled = false
 local ESPDistance = 100
 local ESPLines = {}
-local framework
+local FlySpeed = 50
 
 -------------STARTUP-----------------
 local UserInputService = game:GetService("UserInputService")
@@ -22,12 +21,7 @@ local TweenService = game:GetService("TweenService")
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
-
-local function printTable(tbl)
-  for key, value in pairs(tbl) do
-      print("Key:", key, "Value:", tostring(value))
-  end
-end
+local framework
 
 local framework = {
   dekshdse = function(ex)
@@ -123,22 +117,14 @@ local framework = {
   end,
 
   adjustFlySpeed = function(ox)
-    if type(ox) == "table" then
-      print("Inhalt der Tabelle:")
-      printTable(ox)  -- Zeigt den Inhalt der Tabelle an
-      -- Versuch, den eigentlichen Wert aus der Tabelle zu extrahieren
-      ox = ox.Value or ox[1]  -- Versuche, den tatsächlichen Zahlenwert zu extrahieren
-    end
-
-    local inputSpeed = tonumber(ox)
-    
+    local inputSpeed = tonumber(ox)  -- Versuche, die übergebene Variable in eine Zahl zu konvertieren
     if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
-        FlySpeed = inputSpeed
-        print("Fluggeschwindigkeit eingestellt auf:", FlySpeed)
+        framework.FlySpeed = inputSpeed  -- Verwende das Framework, um die globale FlySpeed zu setzen
+        print("Fluggeschwindigkeit auf:", FlySpeed)
     else
         print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
     end
-end,
+  end,
 
   createESPBox = function(player)
     if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
