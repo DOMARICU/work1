@@ -125,6 +125,7 @@ local framework = {
         print("Fluggeschwindigkeit eingestellt auf:", FlySpeed)
     else
         print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
+        warn("Value Detected: " ..inputSpeed)
     end
   end,
 
