@@ -23,6 +23,12 @@ local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
 
+local function printTable(tbl)
+  for key, value in pairs(tbl) do
+      print("Key:", key, "Value:", tostring(value))
+  end
+end
+
 local framework = {
   dekshdse = function(ex)
     if ex then
@@ -117,8 +123,22 @@ local framework = {
   end,
 
   adjustFlySpeed = function(ox)
-       print("Test. Variable = ", ox)
-  end,
+    local inputSpeed = tonumber(ox)
+    
+    if type(inputSpeed) == "table" then
+        print("Test. Variable = table, Inhalt der Tabelle:")
+        printTable(inputSpeed)  -- Zeigt den Inhalt der Tabelle an
+    else
+        print("Test. Variable = ", tostring(inputSpeed))
+    end
+    
+    if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
+        FlySpeed = inputSpeed
+        print("Fluggeschwindigkeit eingestellt auf: " .. tostring(FlySpeed))
+    else
+        print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und " .. tostring(SVSetting.maxflyspeed) .. " liegen.")
+    end
+end,
 
   createESPBox = function(player)
     if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
