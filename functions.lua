@@ -13,7 +13,7 @@ local ESPDistance = 100
 local ESPLines = {}
 local framework
 
-
+local ox
 
 -------------STARTUP-----------------
 local UserInputService = game:GetService("UserInputService")
