@@ -123,20 +123,20 @@ local framework = {
   end,
 
   adjustFlySpeed = function(ox)
-    local inputSpeed = tonumber(ox)
-    
-    if type(inputSpeed) == "table" then
-        print("Test. Variable = table, Inhalt der Tabelle:")
-        printTable(inputSpeed)  -- Zeigt den Inhalt der Tabelle an
-    else
-        print("Test. Variable = ", tostring(inputSpeed))
+    if type(ox) == "table" then
+      print("Inhalt der Tabelle:")
+      printTable(ox)  -- Zeigt den Inhalt der Tabelle an
+      -- Versuch, den eigentlichen Wert aus der Tabelle zu extrahieren
+      ox = ox.Value or ox[1]  -- Versuche, den tatsächlichen Zahlenwert zu extrahieren
     end
+
+    local inputSpeed = tonumber(ox)
     
     if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
         FlySpeed = inputSpeed
-        print("Fluggeschwindigkeit eingestellt auf: " .. tostring(FlySpeed))
+        print("Fluggeschwindigkeit eingestellt auf:", FlySpeed)
     else
-        print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und " .. tostring(SVSetting.maxflyspeed) .. " liegen.")
+        print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
     end
 end,
 
