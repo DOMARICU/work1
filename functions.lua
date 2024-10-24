@@ -13,8 +13,6 @@ local ESPDistance = 100
 local ESPLines = {}
 local framework
 
-local ox
-
 -------------STARTUP-----------------
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -119,7 +117,7 @@ local framework = {
   end,
 
   adjustFlySpeed = function(ox)
-       print("Test. Variable = " ..ox)
+       print("Test. Variable = ", ox)
   end,
 
   createESPBox = function(player)
