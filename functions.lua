@@ -11,7 +11,6 @@ local TeamCheckEnabled = false
 local ESPDistance = 100
 local ESPLines = {}
 local FlySpeed = 50
-local framework
 
 ------------- STARTUP -------------
 local UserInputService = game:GetService("UserInputService")
@@ -22,9 +21,6 @@ local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
 
--- Framework Definition
-local framework = {
-  -- Fly Function
   dekshdse = function(ex)
       if ex then
           if not Flying then
@@ -113,9 +109,8 @@ local framework = {
               RunService:UnbindFromRenderStep("Fly")
           end
       end
-  end,
+  end
 
-  -- Adjust Fly Speed Function
   adjustFlySpeed = function(ox)
       local inputSpeed = tonumber(ox)
       if inputSpeed and inputSpeed >= 5 and inputSpeed <= SVSetting.maxflyspeed then
@@ -124,9 +119,8 @@ local framework = {
       else
           print("ERROR! Ungültiger Wert für Fluggeschwindigkeit. Der Wert muss zwischen 5 und", SVSetting.maxflyspeed, "liegen.")
       end
-  end,
+  end
 
-  -- Create ESP Box Function
   createESPBox = function(player)
       if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
           return
@@ -164,12 +158,11 @@ local framework = {
 
       character:WaitForChild("HumanoidRootPart").AncestryChanged:Connect(function(_, parent)
           if not parent then
-              framework:removeESPBox(player)
+              removeESPBox(player)
           end
       end)
-  end,
+  end
 
-  -- Remove ESP Box Function
   removeESPBox = function(player)
       if ESPBoxes[player] then
           for _, component in pairs(ESPBoxes[player]) do
@@ -179,34 +172,32 @@ local framework = {
           end
           ESPBoxes[player] = nil
       end
-  end,
+  end
 
-  -- Toggle ESP Box Function
   toggleESPBox = function(Value)
       ESPEnabled = Value
 
       if ESPEnabled then
           for _, player in ipairs(Players:GetPlayers()) do
               if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                  framework:createESPBox(player)
+                  createESPBox(player)
               end
           end
 
           Players.PlayerAdded:Connect(function(newPlayer)
               newPlayer.CharacterAdded:Connect(function()
                   if ESPEnabled then
-                      framework:createESPBox(newPlayer)
+                      createESPBox(newPlayer)
                   end
               end)
           end)
       else
           for _, player in pairs(Players:GetPlayers()) do
-              framework:removeESPBox(player)
+              removeESPBox(player)
           end
       end
-  end,
+  end
 
-  -- Create ESP Beam Function
   createESPBeam = function(player)
       if player == LocalPlayer or not player.Character then
           return
@@ -278,7 +269,7 @@ local framework = {
       end
 
       RunService.RenderStepped:Connect(updateBeam)
-  end,
+  end
 
   -- Remove ESP Beam Function
   removeESPBeam = function(player)
@@ -289,33 +280,33 @@ local framework = {
           if data.endAttachment then data.endAttachment:Destroy() end
           ESPLines[player.Name] = nil
       end
-  end,
+  end
 
   -- Toggle ESP Lines Function
   toggleESPLines = function(Value)
       ESPLinesEnabled = Value
 
       if ESPLinesEnabled then
-          framework:addESPBeamsToAllPlayers()
+          addESPBeamsToAllPlayers()
       else
-          framework:removeAllESPBeams()
+          removeAllESPBeams()
       end
-  end,
+  end
 
   -- Add ESP Beams to All Players
   addESPBeamsToAllPlayers = function()
       for _, player in ipairs(Players:GetPlayers()) do
           if player ~= LocalPlayer then
-              framework:createESPBeam(player)
+              createESPBeam(player)
           end
       end
 
       Players.PlayerAdded:Connect(function(newPlayer)
           newPlayer.CharacterAdded:Connect(function()
-              framework:createESPBeam(newPlayer)
+              createESPBeam(newPlayer)
           end)
       end)
-  end,
+  end
 
   -- Remove All ESP Beams
   removeAllESPBeams = function()
@@ -325,12 +316,8 @@ local framework = {
           if data.endAttachment then data.endAttachment:Destroy() end
       end
       ESPLines = {}
-  end,
+  end
 
-  -- Remove ESP Beam on Player Removal
   Players.PlayerRemoving:Connect(function(player)
-      framework:removeESPBeam(player)
+      removeESPBeam(player)
   end)
-}
-
-return framework
