@@ -334,6 +334,7 @@ local function framework()
     createESPBeam = createESPBeam,
     removeESPBeam = removeESPBeam,
     toggleESPLines = toggleESPLines,
-    framework = framework
   }
 end
+
+return framework
