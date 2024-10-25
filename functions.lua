@@ -2,6 +2,12 @@ local SVSetting = {
   maxflyspeed = 400
 }
 
+local supportedWeapons = {
+  "AK47",
+  "M4A1",
+  "SniperRifle"
+}
+
 -- Definitionen:
 local Flying = false
 local FlyBodyGyro, FlyBodyVelocity
@@ -14,7 +20,9 @@ local FlySpeed = 50
 ------------- STARTUP -------------
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
+local weaponReloadEvent = ReplicatedStorage:WaitForChild("WeaponsSystem"):WaitForChild("Network"):WaitForChild("WeaponReloadRequest")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
@@ -324,6 +332,23 @@ local function framework()
     removeESPBeam(player)
   end)
 
+  local function toggleuna(ex)
+    if ex then
+      task.spawn(function()
+        while true do
+            local heldTool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+            if heldTool and table.find(supportedWeapons, heldTool.Name) then
+                local args = {
+                    [1] = heldTool
+                }
+                weaponReloadEvent:FireServer(unpack(args))
+            end
+            task.wait(0.1)
+        end
+    end)
+    end
+  end
+  
   init()
   return {
     dekshdse = dekshdse,
@@ -333,7 +358,8 @@ local function framework()
     toggleESPBox = toggleESPBox,
     createESPBeam = createESPBeam,
     removeESPBeam = removeESPBeam,
-    toggleESPLines = toggleESPLines
+    toggleESPLines = toggleESPLines,
+    toggleuna = toggleuna
   }
 end
 
