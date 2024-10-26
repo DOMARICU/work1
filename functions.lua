@@ -358,47 +358,45 @@ function framework()
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= Players.LocalPlayer then
             player.CharacterAdded:Connect(function()
-                updateHeadHitbox(player)
+                if not _G.Disabled then
+                    updateHeadHitbox(player)
+                end
             end)
-            if player.Character then
+            if player.Character and not _G.Disabled then
                 updateHeadHitbox(player)
             end
         end
     end
-  end
+end
 
-  local function usebhbox(enabled)
-    SVSetting.htbxdisabled = not enabled
-    if enabled then
-        print("Hitbox Changer aktiviert.")
-        monitorPlayers()
-    else
-        print("Hitbox Changer deaktiviert.")
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player.Character and player.Character:FindFirstChild("Head") then
-                player.Character.Head.Size = Vector3.new(2, 1, 1)
-            end
-        end
-    end
+local function usebhbox(enabled)
+  SVSetting.htbxdisabled = not enabled
+  if enabled then
+      print("Hitbox Changer aktiviert.")
+      monitorPlayers()  -- Wendet die Hitboxen auf alle Spieler an
+  else
+      print("Hitbox Changer deaktiviert.")
+      -- Setzt die Kopfgrößen auf ihre Standardgröße zurück, wenn deaktiviert
+      for _, player in ipairs(Players:GetPlayers()) do
+          if player.Character and player.Character:FindFirstChild("Head") then
+              player.Character.Head.Size = Vector3.new(2, 1, 1)  -- Zurück zur normalen Größe
+          end
+      end
   end
+end
 
   function updateHeadHitbox(player)
     if player and player.Character and player.Character:FindFirstChild("Head") then
         local head = player.Character.Head
 
         head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-        head.Transparency = 0.7
+        head.Transparency = 0.7 
         head.BrickColor = BrickColor.new("Really blue")
         head.Material = Enum.Material.Neon
         head.CanCollide = false
 
-        head:GetPropertyChangedSignal("Size"):Connect(function()
-            if not _G.Disabled then
-                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-            end
-        end)
     end
-  end
+end
 
   Players.PlayerAdded:Connect(function(player)
     if player ~= Players.LocalPlayer then
