@@ -30,7 +30,6 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
-local fr = framework
 
 function framework()
 
@@ -359,10 +358,10 @@ function framework()
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= Players.LocalPlayer then
             player.CharacterAdded:Connect(function()
-                fr.updateHeadHitbox(player)
+                updateHeadHitbox(player)
             end)
             if player.Character then
-                fr.updateHeadHitbox(player)
+                updateHeadHitbox(player)
             end
         end
     end
@@ -383,7 +382,7 @@ function framework()
     end
   end
 
-  local function updateHeadHitbox(player)
+  function updateHeadHitbox(player)
     if player and player.Character and player.Character:FindFirstChild("Head") then
         local head = player.Character.Head
 
