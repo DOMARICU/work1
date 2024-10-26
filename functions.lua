@@ -30,7 +30,7 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
-local fr = framework()
+local fr = framework
 
 function framework()
 
