@@ -1,5 +1,6 @@
 local SVSetting = {
-  maxflyspeed = 400
+  maxflyspeed = 400,
+  maxhitboxsize = 50,
 }
 
 local supportedWeapons = {
@@ -16,6 +17,7 @@ local TeamCheckEnabled = false
 local ESPDistance = 100
 local ESPLines = {}
 local FlySpeed = 50
+local hitbox = 5
 
 ------------- STARTUP -------------
 local UserInputService = game:GetService("UserInputService")
@@ -348,7 +350,68 @@ local function framework()
     end)
     end
   end
-  
+
+  --Hitbox
+
+  local function monitorPlayers()
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer then
+            player.CharacterAdded:Connect(function()
+                framework.updateHeadHitbox(player)
+            end)
+            if player.Character then
+                framework.updateHeadHitbox(player)
+            end
+        end
+    end
+  end
+
+  local function usebhbox(enabled)
+    _G.Disabled = not enabled
+    if enabled then
+        print("Hitbox Changer aktiviert.")
+        monitorPlayers()
+    else
+        print("Hitbox Changer deaktiviert.")
+        for _, player in ipairs(Players:GetPlayers()) do
+            if player.Character and player.Character:FindFirstChild("Head") then
+                player.Character.Head.Size = Vector3.new(2, 1, 1)
+            end
+        end
+    end
+  end
+
+  local function updateHeadHitbox(player)
+    if player and player.Character and player.Character:FindFirstChild("Head") then
+        local head = player.Character.Head
+
+        head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+        head.Transparency = 0.7
+        head.BrickColor = BrickColor.new("Really blue")
+        head.Material = Enum.Material.Neon
+        head.CanCollide = false
+
+        head:GetPropertyChangedSignal("Size"):Connect(function()
+            if not _G.Disabled then
+                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+            end
+        end)
+    end
+  end
+
+  Players.PlayerAdded:Connect(function(player)
+    if player ~= Players.LocalPlayer then
+        monitorPlayers()
+    end
+end)
+
+local function adjustht(size)
+  if size >= 5 and size <= 100 then
+      _G.HeadSize = size
+      print("Hitboxgröße auf " .. size .. " eingestellt.")
+  end
+end
+
   init()
   return {
     dekshdse = dekshdse,
@@ -359,8 +422,13 @@ local function framework()
     createESPBeam = createESPBeam,
     removeESPBeam = removeESPBeam,
     toggleESPLines = toggleESPLines,
-    toggleuna = toggleuna
+    toggleuna = toggleuna,
+    adjustht = adjustht,
+    usebhbox = usebhbox,
+    updateHeadHitbox = updateHeadHitbox,
+    monitorPlayers = monitorPlayers
   }
+
 end
 
 return framework()
