@@ -1,6 +1,7 @@
 local SVSetting = {
   maxflyspeed = 400,
   maxhitboxsize = 50,
+  htbxdisabled = true
 }
 
 local supportedWeapons = {
@@ -29,7 +30,7 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
-local fr = framework
+local fr = framework()
 
 function framework()
 
@@ -368,7 +369,7 @@ function framework()
   end
 
   local function usebhbox(enabled)
-    _G.Disabled = not enabled
+    SVSetting.htbxdisabled = not enabled
     if enabled then
         print("Hitbox Changer aktiviert.")
         monitorPlayers()
