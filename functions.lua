@@ -29,8 +29,9 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local ESPEnabled = false
 local ESPBoxes = {}
+local fr = framework
 
-local function framework()
+function framework()
 
   local function init()
       print("Framework initialized.")
@@ -357,10 +358,10 @@ local function framework()
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= Players.LocalPlayer then
             player.CharacterAdded:Connect(function()
-                framework.updateHeadHitbox(player)
+                fr.updateHeadHitbox(player)
             end)
             if player.Character then
-                framework.updateHeadHitbox(player)
+                fr.updateHeadHitbox(player)
             end
         end
     end
